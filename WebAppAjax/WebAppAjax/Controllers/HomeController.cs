@@ -13,6 +13,8 @@ namespace WebAppAjax.Controllers
 
         public ActionResult Index()
         {
+            List<tblDepartment> DetptList = db.tblDepartments.ToList();
+            ViewBag.ListOfDeartment = new SelectList(DetptList, "DepartmentId", "DepartmentName");
             return View();
         }
 

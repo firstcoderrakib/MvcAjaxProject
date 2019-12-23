@@ -1,4 +1,4 @@
-﻿@model WebAppAjax.Models.MVCTUTORIALSEntities
+﻿@model WebAppAjax.Models.StudentViewModel
 @{
     Layout = null;
 }
@@ -24,6 +24,35 @@
             <tr id="LoadingStatus" style="color:red"></tr>
         </tbody>
     </table>
+
+    @*Create A Popup with Registration Form For Add or Edit Student Record*@
+    <div class="modal fade" id="MyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+                        @Html.HiddenFor(m => m.StudentId, new { @id = "StuId" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.StudentName, new { @id = "StuName", @class = "form-control", @placeholder = "Name" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control", @placeholder = "Email" })
+                        </div>
+                        <div class="form-group">
+                            @Html.DropDownListFor(m => m.DepartmentId, ViewBag.ListOfDeartment as SelectList, "---Select Drop---", new { @id = "DropDwn", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="btn btn-danger" id="DaveStudentRecord">Save</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $("#LoadingStatus").html("Loading.......")
@@ -36,11 +65,18 @@
                 "<td>" + StudentList[i].StudentName + "</td>" +
                 "<td>" + StudentList[i].Email + "</td>" +
                 "<td>" + StudentList[i].DepartmentName + "</td>" +
-                "<td>" + " <a href='#' class='btn btn-warning' onclick='EditStudentRecord()'><span class='glyphicon glyphicon-edit'></span></a>" + "</td>"+
-                "<td>" + " <a href='#' class='btn btn-danger' onclick='DeleteStudentRecord()'><span class='glyphicon glyphicon-trash'></span></a>" + "</td>" +
+                "<td>" + " <a href='#' class='btn btn-warning' onclick='EditStudentRecord(" + StudentList[i].StudentId + ")'><span class='glyphicon glyphicon-edit'></span></a>" + "</td>"+
+                "<td>" + " <a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + StudentList[i].StudentId + ")'><span class='glyphicon glyphicon-trash'></span></a>" + "</td>" +
                 "</tr>";
             SetData.append(Data);
             $("#LoadingStatus").html(" ");
         }
+    }
+    //Show The Popup Modal For Add New Student
+    function AddNewStudent(StudentId) {
+        $("#form")[0].reset();
+        $("#ModalTitle").html("Add New Student")
+        $("#MyModal").modal();
+
     }
 </script>
