@@ -47,7 +47,7 @@
                             @Html.DropDownListFor(m => m.DepartmentId, ViewBag.ListOfDeartment as SelectList, "---Select Drop---", new { @id = "DropDwn", @class = "form-control" })
                         </div>
                         <div class="form-group">
-                            <a href="#" class="btn btn-danger" id="DaveStudentRecord">Save</a>
+                            <a href="#" class="btn btn-danger" id="SaveStudentRecord">Save</a>
                         </div>
                     </fieldset>
                 </form>
@@ -83,13 +83,15 @@
 
     //Show The Popub Modal For Edit Student Record
 
-    function EditStudentRecord(StudentId) {
+    function EditStudentRecord(StudentId)
+    {
 
         var url = "/Home/GetStudentById?StudentId=" + StudentId;
         $("#ModalTitle").html("Update Student Record");
         $("#MyModal").modal();
         $.ajax({
             type: "GET",
+
             url: url,
             success: function (data) {
                 var obj = JSON.parse(data);
@@ -100,4 +102,18 @@
             }
         })
     }
+
+    $("#SaveStudentRecord").click(function () {
+        var data = $("#SubmitForm").serialize();
+        $.ajax({
+            type: "Post",
+            url: "/Home/SaveDataInDatabase",
+            data: data,
+            success: function (result) {
+                alert("Success!..");
+                window.location.href = "/Home/index";
+                $("#MyModal").modal("hide");
+            }
+        })
+    })
 </script>

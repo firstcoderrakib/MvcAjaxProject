@@ -32,7 +32,7 @@ namespace WebAppAjax.Controllers
             return Json(StuList, JsonRequestBehavior.AllowGet);
         }
 
-      public JsonResult GetStudentById(int StudentId)
+        public JsonResult GetStudentById(int StudentId)
       {
             tblStudent model = db.tblStudents.Where(x => x.StudentId == StudentId).SingleOrDefault();
             string value = string.Empty;
@@ -41,6 +41,38 @@ namespace WebAppAjax.Controllers
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
             return Json(value, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveDataInDatabase(StudentViewModel model)
+        {
+            var result = false;
+            try
+            {
+                if(model.StudentId > 0)
+                {
+                    tblStudent Stu = db.tblStudents.SingleOrDefault(x => x.IsDeleted == false && x.StudentId == model.StudentId);
+                    Stu.StudentName = model.StudentName;
+                    Stu.Email = model.Email;
+                    Stu.DepartmentId = model.DepartmentId;
+                    db.SaveChanges();
+                    result = true;
+                }
+                else
+                {
+                    tblStudent Stu = new tblStudent();
+                    Stu.StudentName = model.StudentName;
+                    Stu.Email = model.Email;
+                    Stu.DepartmentId = model.DepartmentId;
+                    Stu.IsDeleted = false;
+                    db.tblStudents.Add(Stu);
+                    db.SaveChanges();
+                    result = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
