@@ -88,5 +88,16 @@
         var url = "/Home/GetStudentById?StudentId=" + StudentId;
         $("#ModalTitle").html("Update Student Record");
         $("#MyModal").modal();
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#StuId").val(obj.StudentId);
+                $("#StuName").val(obj.StudentName);
+                $("#Email").val(obj.Email);
+                $("#DropDwn option:selected").text(obj.tblDepartment.DepartmentName);
+            }
+        })
     }
 </script>
