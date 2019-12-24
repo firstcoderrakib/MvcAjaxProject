@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,6 +32,15 @@ namespace WebAppAjax.Controllers
             return Json(StuList, JsonRequestBehavior.AllowGet);
         }
 
-      
+      public JsonResult GetStudentById(int StudentId)
+      {
+            tblStudent model = db.tblStudents.Where(x => x.StudentId == StudentId).SingleOrDefault();
+            string value = string.Empty;
+            value = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            return Json(value, JsonRequestBehavior.AllowGet);
+        }
     }
 }

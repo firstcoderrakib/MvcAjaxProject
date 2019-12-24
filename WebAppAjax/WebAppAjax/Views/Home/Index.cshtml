@@ -2,9 +2,10 @@
 @{
     Layout = null;
 }
-<script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
 
 <div class="container" style="margin-top:3%">
     <a href="#" class="btn btn-info" onclick="AddNewStudent(0)">Add New Student</a><br /><br />
@@ -78,5 +79,14 @@
         $("#ModalTitle").html("Add New Student")
         $("#MyModal").modal();
 
+    }
+
+    //Show The Popub Modal For Edit Student Record
+
+    function EditStudentRecord(StudentId) {
+
+        var url = "/Home/GetStudentById?StudentId=" + StudentId;
+        $("#ModalTitle").html("Update Student Record");
+        $("#MyModal").modal();
     }
 </script>
