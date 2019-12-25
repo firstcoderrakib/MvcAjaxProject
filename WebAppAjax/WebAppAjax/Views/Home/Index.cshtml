@@ -54,6 +54,26 @@
             </div>
         </div>
     </div>
+
+    @*Create A Popup Modal For DeleteConfirmation*@
+    
+    <div class="modal-fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4>Delete Student Record</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Are You Sure? You want To Delete This Record</h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                    <a href="#" class="btn btn-danger" onclick="ConfirmDelete()">Confirm Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $("#LoadingStatus").html("Loading.......")
@@ -116,4 +136,26 @@
             }
         })
     })
+
+    //show The popup modal For deleteConfirmation
+
+    function DeleteStudentRecord(StudentId) {
+        $("#StuId").val(StudentId);
+        $("#DeleteConfirmation").modal("show");
+    }
+    function ConfirmDelete() {
+        var StuId = $("StuId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Home/DeleteStudentRecord?StudentId=" + StuId,
+            success: function (result) {
+                $("#DeleteConfirmation").modal("hide");
+                $(".row_" + StuId).remove();
+            }
+        })
+    }
+   
+
+      
+
 </script>
